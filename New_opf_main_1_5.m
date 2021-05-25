@@ -1,3 +1,5 @@
+%%% Part program of the article 'A LR-ACOPF Based Market Clearing Model and LMP Decomposition'.
+%%% Article URL: https://kns.cnki.net/KXReader/Detail?TIMESTAMP=637575376450175781&DBCODE=CAPJ&TABLEName=CAPJLAST&FileName=ZGDC20200727002&RESULT=1&SIGN=Hxxpzgo77zBOVwflwRYGPwzup4k%3d
 %%% New 线性潮流计算方法
 %%%本版本基于New_opf_main_1_3_prde_activepowercompara,改成电压线性松弛，角度线性松弛
 %% ---- 生成导纳矩阵等信息 -------------------------------------------------

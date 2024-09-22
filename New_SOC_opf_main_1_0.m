@@ -1,46 +1,49 @@
-%%% New ÏßĞÔ³±Á÷¼ÆËã·½·¨
-%%%±¾°æ±¾»ùÓÚNew_opf_main_1_3_prde_activepowercompara,
-%% ---- Éú³Éµ¼ÄÉ¾ØÕóµÈĞÅÏ¢ -------------------------------------------------
-%µ¼ÈëµçÍøÊı¾İ
+%%% New çº¿æ€§æ½®æµè®¡ç®—æ–¹æ³•
+%%%æœ¬ç‰ˆæœ¬åŸºäºNew_opf_main_1_3_prde_activepowercompara
+%%% by Yao Xiao
+%%% xiaoyaodashe@outlook.com
+%%% yao.xiao.1@stonybrook.edu
+%% ---- ç”Ÿæˆå¯¼çº³çŸ©é˜µç­‰ä¿¡æ¯ -------------------------------------------------
+%å¯¼å…¥ç”µç½‘æ•°æ®
 mpc=ext2int(case1354xy);
 [baseMVA,bus,gen,branch,gencost]=deal(mpc.baseMVA,mpc.bus,mpc.gen,mpc.branch,mpc.gencost);
-%Éú³Éµ¼ÄÉ¾ØÕó
+%ç”Ÿæˆå¯¼çº³çŸ©é˜µ
 Ybus=makeYbus(baseMVA,bus,branch);
-Gbus=real(Ybus);%Êµ²¿
-Bbus=imag(Ybus);%Ğé²¿
-%ÆäËûĞÅÏ¢
+Gbus=real(Ybus);%å®éƒ¨
+Bbus=imag(Ybus);%è™šéƒ¨
+%å…¶ä»–ä¿¡æ¯
 [PQ, PV, REF, NONE, BUS_I, BUS_TYPE, PD, QD, GS, BS, BUS_AREA, VM, ...
-    VA, BASE_KV, ZONE, VMAX, VMIN, LAM_P, LAM_Q, MU_VMAX, MU_VMIN] = idx_bus;%Ä¸Ïß²ÎÊıÁĞºÅ
+    VA, BASE_KV, ZONE, VMAX, VMIN, LAM_P, LAM_Q, MU_VMAX, MU_VMIN] = idx_bus;%æ¯çº¿å‚æ•°åˆ—å·
 [GEN_BUS, PG, QG, QMAX, QMIN, VG, MBASE, GEN_STATUS, PMAX, PMIN, ...
     MU_PMAX, MU_PMIN, MU_QMAX, MU_QMIN, PC1, PC2, QC1MIN, QC1MAX, ...
-    QC2MIN, QC2MAX, RAMP_AGC, RAMP_10, RAMP_30, RAMP_Q, APF] = idx_gen;%·¢µç»ú²ÎÊıÁĞºÅ
-[PW_LINEAR, POLYNOMIAL, MODEL, STARTUP, SHUTDOWN, NCOST, COST] = idx_cost;%·¢µç»ú³É±¾²ÎÊıÁĞºÅ
+    QC2MIN, QC2MAX, RAMP_AGC, RAMP_10, RAMP_30, RAMP_Q, APF] = idx_gen;%å‘ç”µæœºå‚æ•°åˆ—å·
+[PW_LINEAR, POLYNOMIAL, MODEL, STARTUP, SHUTDOWN, NCOST, COST] = idx_cost;%å‘ç”µæœºæˆæœ¬å‚æ•°åˆ—å·
 [F_BUS, T_BUS, BR_R, BR_X, BR_B, RATE_A, RATE_B, ...
     RATE_C, TAP, SHIFT, BR_STATUS, PF, QF, PT, QT, MU_SF, MU_ST, ...
-    ANGMIN, ANGMAX, MU_ANGMIN, MU_ANGMAX] = idx_brch;%Ä¸Ïß²ÎÊıÁĞºÅ
-[ref, pv, pq] = bustypes(bus,gen);%½ÚµãÀàĞÍ
-nbus=size(bus,1);%Ä¸ÏßÊıÁ¿
+    ANGMIN, ANGMAX, MU_ANGMIN, MU_ANGMAX] = idx_brch;%æ¯çº¿å‚æ•°åˆ—å·
+[ref, pv, pq] = bustypes(bus,gen);%èŠ‚ç‚¹ç±»å‹
+nbus=size(bus,1);%æ¯çº¿æ•°é‡
 branch=branch(branch(:,BR_STATUS)==1,:);
 nbranch=size(branch,1);
 gen=gen(gen(:,GEN_STATUS)==1,:);
-ng=size(gen,1);%·¢µç»úÊıÁ¿
-No_ref=[1:ref-1,ref+1:nbus];%·Ç²Î¿¼½Úµã
-%¸ººÉÖµ
+ng=size(gen,1);%å‘ç”µæœºæ•°é‡
+No_ref=[1:ref-1,ref+1:nbus];%éå‚è€ƒèŠ‚ç‚¹
+%è´Ÿè·å€¼
 sumpload=[3959];%	3733	3280	3016	3129	3393	3959	4411	4637	4977	5033	4751	4524	4298	4977	5090	4807	5033	5116	5184	5090	5014	4901	4581];
 Pload=bus(:,PD).*sumpload/sumpload(1);
 Qload=bus(:,QD).*sumpload/sumpload(1);
-%Ê±¼ä¶ÎÊıÁ¿
+%æ—¶é—´æ®µæ•°é‡
 nt=size(sumpload,2);
-%ÈİÁ¿²ÎÊı
+%å®¹é‡å‚æ•°
 Pmax=gen(:,PMAX);
 Pmin=gen(:,PMIN);
 Qmax=gen(:,QMAX);
 Qmin=gen(:,QMIN);
-%È¡³öÎ¨Ò»µÄÏßÂ·±àºÅ
+%å–å‡ºå”¯ä¸€çš„çº¿è·¯ç¼–å·
 unibranch=unique(branch(:,1:2),'rows');
-nunibranch=size(unibranch,1);%È¥µôÖØ¸´ºóµÄÏßÂ·ÊıÁ¿
+nunibranch=size(unibranch,1);%å»æ‰é‡å¤åçš„çº¿è·¯æ•°é‡
 
-%%---- ¶¨Òå±äÁ¿ ------------------------------------------------------------
+%%---- å®šä¹‰å˜é‡ ------------------------------------------------------------
 V_2=sdpvar(nbus,nt,'full');
 theta=sdpvar(nbus,nt,'full');
 theta_xi=sdpvar(nunibranch,nt,'full');
@@ -49,7 +52,7 @@ theta_ti=sdpvar(nunibranch,nt,'full');
 P=sdpvar(ng,nt,'full');
 Q=sdpvar(ng,nt,'full');
 
-%%---- ¹ØÁª¾ØÕó ------------------------------------------------------------
+%%---- å…³è”çŸ©é˜µ ------------------------------------------------------------
 Vgen_bus=sparse(gen(:,1),1:ng,1,nbus,ng);
 VFunibranch_bus=sparse(unibranch(:,1),1:nunibranch,1,nbus,nunibranch);
 VTunibranch_bus=sparse(unibranch(:,2),1:nunibranch,1,nbus,nunibranch);
@@ -61,33 +64,33 @@ VTbus_branch=sparse(1:nbranch,branch(:,2),1,nbranch,nbus);
 VFTbus_branch_diff=VFbus_branch-VTbus_branch;
 VFTbus_branch_sum=VFbus_branch+VTbus_branch;
 
-%%---- ¸¨Öú¾ØÕó+²ÎÊı -------------------------------------------------------
-%ĞÎ³ÉBbus_¾ØÕó
+%%---- è¾…åŠ©çŸ©é˜µ+å‚æ•° -------------------------------------------------------
+%å½¢æˆBbus_çŸ©é˜µ
 Bbus_=-Bbus;
 Bbus_(logical(eye(nbus,nbus)))=sum(Bbus.*(1-eye(nbus,nbus)),2);
-%ĞÎ³ÉGbus_¾ØÕó
+%å½¢æˆGbus_çŸ©é˜µ
 Gbus_=Gbus;
 Gbus_(logical(eye(nbus,nbus)))=-sum(Gbus.*(1-eye(nbus,nbus)),2);
-% %ĞÎ³É·¢µç»ú¹¦ÂÊ¼«ÏŞ²ÎÊı(Ï¹ÉèµÄ)
+% %å½¢æˆå‘ç”µæœºåŠŸç‡æé™å‚æ•°(çè®¾çš„)
 % alpha1=Pmax./(Qmin/4-Qmax/4);
 % alpha2=Pmax./(Qmax/4-Qmin/4);
-%ref,pv,½ÚµãµçÑ¹Ô¼Êø
+%ref,pv,èŠ‚ç‚¹ç”µå‹çº¦æŸ
 V_2_ref=bus(ref,VM).^2;
 % V_2_pv=bus(pv,VM).^2;
 V_2_MAX=bus(:,VMAX).^2;
 V_2_MIN=bus(:,VMIN).^2;
-%²Î¿¼½ÚµãÏà½ÇÔ¼Êø
+%å‚è€ƒèŠ‚ç‚¹ç›¸è§’çº¦æŸ
 theta_ref=bus(ref,VA)*pi/180;
-%ĞÎ³É·¢µç»úµÄ¹¦½Ç+¼«ÏŞÔ¼Êø
-alpha_g=[-ones(ng,1),ones(ng,1),zeros(ng,1),zeros(ng,1)];%ÊäÈë²ÎÊı
+%å½¢æˆå‘ç”µæœºçš„åŠŸè§’+æé™çº¦æŸ
+alpha_g=[-ones(ng,1),ones(ng,1),zeros(ng,1),zeros(ng,1)];%è¾“å…¥å‚æ•°
 beta_g=[zeros(ng,1),zeros(ng,1),-ones(ng,1),ones(ng,1)];
 gamma_g=[Pmin,-Pmax,Qmin,-Qmax];
-% ĞÎ³É¶ÔÓ¦ÓÚGbus£¬BbusµÄµ¼ÄÉÏòÁ¿
+% å½¢æˆå¯¹åº”äºGbusï¼ŒBbusçš„å¯¼çº³å‘é‡
 II=sub2ind([nbus,nbus],unibranch(:,1),unibranch(:,2));
 Gbranch=Gbus(II);
 Bbranch=Bbus(II);
-%%---- ĞÎ³É¼õĞ¡ËÉ³ÚÎó²î²ÎÊı -----------------------------------------------
-%µçÑ¹²¿·Ö
+%%---- å½¢æˆå‡å°æ¾å¼›è¯¯å·®å‚æ•° -----------------------------------------------
+%ç”µå‹éƒ¨åˆ†
 Vmin=max(bus(:,VMIN));
 Vmax=max(bus(:,VMAX));
 a=-0.5;
@@ -95,19 +98,19 @@ Va2=Vmin^2:0.005:Vmax^2;
 Vb2=Va2;
 Vab=-sqrt(Va2'.*Vb2);
 b=1.05*max([-min(a*Va2'+a*Vb2-Vab,[],'all'),0]);
-%½Ç¶È²¿·Ö
+%è§’åº¦éƒ¨åˆ†
 c=0.125;
 
-%% ---- Ä£ĞÍ¹¹½¨ ------------------------------------------------------------
+%% ---- æ¨¡å‹æ„å»º ------------------------------------------------------------
 con=[];
 for t=1:nt
-    %½ÚµãÓĞ¹¦Æ½ºâ
+    %èŠ‚ç‚¹æœ‰åŠŸå¹³è¡¡
     con=con+[(-Vgen_bus*P(:,t)+Pload(:,t)+baseMVA*(diag(Gbus).*V_2(:,t)+Bbus_*theta(:,t)+...
         (-1)*VFTunibranch_bus_sum*(Gbranch.*theta_xi(:,t)))==0)];
-    %½ÚµãÎŞ¹¦Æ½ºâ
+    %èŠ‚ç‚¹æ— åŠŸå¹³è¡¡
     con=con+[(-Vgen_bus*Q(:,t)+Qload(:,t)+baseMVA*(-diag(Bbus).*V_2(:,t)-Gbus_*theta(:,t)+...
         VFTunibranch_bus_sum*(Bbranch.*theta_xi(:,t)))==0)];
-    %ËÉ³ÚÔ¼Êø;
+    %æ¾å¼›çº¦æŸ;
     for n=1:nunibranch
         con=con+[cone([2*theta_vi(n,t);V_2(unibranch(n,1),t)-V_2(unibranch(n,2),t)],V_2(unibranch(n,1),t)+V_2(unibranch(n,2),t))];
     end
@@ -117,31 +120,31 @@ for t=1:nt
     end
     con=con+[theta_ti(:,t)<=c];
     con=con+[theta_xi(:,t)==theta_vi(:,t)+theta_ti(:,t)];
-    %·¢µç»ú³öÁ¦·¶Î§Ô¼Êø
+    %å‘ç”µæœºå‡ºåŠ›èŒƒå›´çº¦æŸ
     for g=1:size(alpha_g,2)
         con=con+[(alpha_g(:,g).*P(:,t)+beta_g(:,g).*Q(:,t)+gamma_g(:,g)<=0)];
     end
-    %½ÚµãµçÑ¹Ô¼Êø
+    %èŠ‚ç‚¹ç”µå‹çº¦æŸ
     con=con+[(V_2_MIN-V_2(:,t)<=0)];
     con=con+[(V_2(:,t)-V_2_MAX<=0)];
-    %²Î¿¼½ÚµãÏà½Ç
+    %å‚è€ƒèŠ‚ç‚¹ç›¸è§’
     con=con+[(theta(ref,t)-theta_ref==0)];
 end
 
-%%---- Ä¿±êº¯Êı£¨×Ü³É±¾×îĞ¡£© -----------------------------------------------
+%%---- ç›®æ ‡å‡½æ•°ï¼ˆæ€»æˆæœ¬æœ€å°ï¼‰ -----------------------------------------------
 obj=sum(P(:,:),2)'*gencost(1:ng,COST+1)+sum(Q(:,:),2)'*gencost(ng+1:2*ng,COST+1);
 
-%% ---- Çó½â ---------------------------------------------------------------
-%ÉèÖÃ²ÎÊı
+%% ---- æ±‚è§£ ---------------------------------------------------------------
+%è®¾ç½®å‚æ•°
 ses=sdpsettings('solver','gurobi');
-%¼ÆËã
+%è®¡ç®—
 tic
 dd=solvesdp(con,obj,ses);
 if dd.problem~=0
-    error('Ä£ĞÍ²»¿ÉĞĞ!');
+    error('æ¨¡å‹ä¸å¯è¡Œ!');
 end
 toc
-%% ---- ½á¹ûÊı¾İ ------------------------------------------------------------
+%% ---- ç»“æœæ•°æ® ------------------------------------------------------------
 % V=double(V_2).^0.5;
 % theta=double(theta);
 % P=double(P);
